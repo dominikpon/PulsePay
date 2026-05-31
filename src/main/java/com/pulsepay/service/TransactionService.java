@@ -38,7 +38,7 @@ public class TransactionService {
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
         //3. business rules
         if (sender.getBalance().compareTo(amount) < 0) {
-            throw new IllegalStateException("Insufficient funds.");
+            throw new IllegalStateException("Insufficient funds");
             }
         //4. mutate state
         sender.setBalance(sender.getBalance().subtract(amount));
