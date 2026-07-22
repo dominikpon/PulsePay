@@ -3,6 +3,7 @@ package com.pulsepay.service;
 import com.pulsepay.entities.User;
 import com.pulsepay.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User createUser(String username, String email, String rawPassword){
 
@@ -22,11 +24,12 @@ public class UserService {
             throw  new IllegalArgumentException("Username already exists");
         }
 
+        String hashedPassword = passwordEncoder.encode(rawPassword);
         //initialization using Builder Pattern
         User newUser = User.builder()
                 .username(username)
                 .email(email)
-                .password(rawPassword)
+                .password(hashedPassword)
                 .balance(BigDecimal.ZERO) // starting balance is 0 = enforcing business rules
                 .build();
         //persistence

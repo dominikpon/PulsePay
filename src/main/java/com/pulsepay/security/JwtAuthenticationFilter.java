@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //if there is not header, move to the next filter
         //if the endpoint is private , Spring Security will reject it automatically
 
-        if(authHeader != null && authHeader.startsWith("Bearer ")) {
+        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
