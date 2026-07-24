@@ -1,6 +1,7 @@
 package com.pulsepay.controller;
 
 import com.pulsepay.dto.webhook.MockWorkoutPayload;
+import com.pulsepay.service.RewardService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,11 @@ import java.sql.SQLOutput;
 @RequestMapping("/api/webhooks")
 public class WebhookController {
 
-    //TODO: inject RewardService here
+    private final RewardService rewardService;
+
+    public WebhookController(RewardService rewardService) {
+        this.rewardService = rewardService;
+    }
 
     @PostMapping("/mock")
     public ResponseEntity<String> receiveMockWorkout(@RequestBody MockWorkoutPayload payload){
@@ -22,8 +27,8 @@ public class WebhookController {
         System.out.println("Distance: " + payload.distanceKm());
         System.out.println("Duration: " + payload.durationMinutes());
 
-        //TODO: calculate crypto reward and update database balance
+       rewardService.processWorkoutReward(payload.username(),payload.distanceKm());
 
-        return ResponseEntity.ok("Workout received and logged successfully");
+        return ResponseEntity.ok("Workout received,rewarded and receipt generated");
     }
 }

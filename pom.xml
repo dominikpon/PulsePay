@@ -97,6 +97,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Web3j for Base Blockchain Interaction -->
+		<dependency>
+			<groupId>org.web3j</groupId>
+			<artifactId>core</artifactId>
+			<version>4.12.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
