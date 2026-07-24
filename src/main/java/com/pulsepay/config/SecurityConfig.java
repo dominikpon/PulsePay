@@ -36,7 +36,7 @@ public class SecurityConfig {
                 //3. Configure endpoint permissions
                 .authorizeHttpRequests(auth -> auth
                         //allow anyone to access the login and registration endpoints)
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/webhooks/**").permitAll()
                         //every other request must be authenticated (must have valid JWT)
                         .anyRequest().authenticated()
                 )
