@@ -1,5 +1,6 @@
 package com.pulsepay.exception;
 
+import com.pulsepay.exception.custom.PayoutExecutionException;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +22,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errorResponse);
+    }
+
+    @ExceptionHandler(PayoutExecutionException.class)
+    public ResponseEntity<String> handlePayoutException(PayoutExecutionException ex){
+        return ResponseEntity
+                .status(HttpStatus.BAD_GATEWAY)
+                .body("Payout failed" + ex.getMessage());
     }
 }
