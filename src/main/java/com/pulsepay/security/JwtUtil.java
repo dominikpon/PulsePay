@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -12,12 +13,12 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    //the secret password used to sign the token
-    private static final String SECRET_KEY_STRING = "8f39b1a54c67d82f019e34c5678a9012b345c678d90e1234f567890123456789";
+    @Value("${jwt.secret}")
+    private String secretKeyString;
 
     //helper to turn the String into Cryptographic Key
     private SecretKey getSigningKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY_STRING);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKeyString);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
